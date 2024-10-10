@@ -5,8 +5,7 @@ run:
 
 build:	## Build backend Docker image
 	docker build . \
-		-t go-storage \
-		--no-cache \
+		-t go-storage
 
 docker.run:
 	docker run -d \
