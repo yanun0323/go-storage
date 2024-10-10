@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	if err := config.Init("config", true, "./"); err != nil {
+	if err := config.Init("config", true, "./", "./go-storage"); err != nil {
 		logs.Fatalf("init config, err: %v", err)
 	}
 
