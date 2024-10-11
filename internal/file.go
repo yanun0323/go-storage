@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/yanun0323/pkg/logs"
@@ -56,19 +55,14 @@ func (fm *FileManager) PostFile(c echo.Context) error {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	extIdx := strings.LastIndex(fh.Filename, ".")
-	if extIdx == -1 {
-		return c.JSON(http.StatusBadRequest, Response("file name must have extension"))
-	}
-
-	ext := fh.Filename[extIdx+1:]
+	contentType, ext := GetContentTypeAndExtension(buf)
 
 	h := md5.New()
 	_, _ = h.Write(buf)
 	filename := fmt.Sprintf("%x.%s", h.Sum(nil), ext)
 	file := File{
 		ID:      filename,
-		Type:    http.DetectContentType(buf),
+		Type:    contentType,
 		Content: buf,
 	}
 	if err := fm.DB.Create(&file).Error; err != nil {
