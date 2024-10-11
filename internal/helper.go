@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mime"
 	"net/http"
+	"sort"
 )
 
 func Response(format string, a ...any) any {
@@ -20,6 +21,10 @@ func GetContentTypeAndExtension(data []byte) (ct, ext string) {
 
 	// Get extension from content type
 	extensions, _ := mime.ExtensionsByType(contentType)
+
+	sort.Slice(extensions, func(i, j int) bool {
+		return len(extensions[i]) > len(extensions[j])
+	})
 
 	if len(extensions) != 0 {
 		return contentType, extensions[0]

@@ -59,7 +59,7 @@ func (fm *FileManager) PostFile(c echo.Context) error {
 
 	h := md5.New()
 	_, _ = h.Write(buf)
-	filename := fmt.Sprintf("%x.%s", h.Sum(nil), ext)
+	filename := fmt.Sprintf("%x%s", h.Sum(nil), ext)
 	file := File{
 		ID:      filename,
 		Type:    contentType,
