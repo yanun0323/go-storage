@@ -68,7 +68,7 @@ func (fm *FileManager) PostFile(c echo.Context) error {
 	filename := fmt.Sprintf("%x.%s", h.Sum(nil), ext)
 	file := File{
 		ID:      filename,
-		Type:    fh.Header.Get("Content-Type"),
+		Type:    http.DetectContentType(buf),
 		Content: buf,
 	}
 	if err := fm.DB.Create(&file).Error; err != nil {
