@@ -4,7 +4,9 @@ FROM golang:1.22-alpine AS build
 ADD . /go/build
 WORKDIR /go/build
 
+ADD config.yaml /go/build/
 ADD go.mod go.sum /go/build/
+
 RUN go mod download
 
 # install gcc
@@ -21,7 +23,7 @@ ENV TZ Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY --from=build /go/build/go-storage /var/application/go-storage
-COPY --from=build /go/build/go-storage/config.yaml /var/application/config.yaml
+COPY --from=build /go/build/config.yaml /var/application/config.yaml
 
 EXPOSE 8001
 
