@@ -23,11 +23,11 @@ func GetContentTypeAndExtension(data []byte) (ct, ext string) {
 	extensions, _ := mime.ExtensionsByType(contentType)
 
 	sort.Slice(extensions, func(i, j int) bool {
-		if extensions[i] == "jpg" {
+		if extensions[i] == ".jpg" {
 			return true
 		}
 
-		return len(extensions[i]) > len(extensions[j])
+		return len(extensions[i]) < len(extensions[j])
 	})
 
 	if len(extensions) != 0 {
